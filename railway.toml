@@ -1,0 +1,11 @@
+[build]
+builder = "NIXPACKS"
+
+[phases.build]
+cmds = [
+  "pip install -r requirements.txt",
+  "playwright install chromium"
+]
+
+[phases.start]
+cmds = ["python bot.py"]
