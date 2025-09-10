@@ -1,7 +1,7 @@
 # Use Python as the base toy box
 FROM python:3.11-slim
 
-# Ask for missing wheels (system dependencies for Chromium)
+# Install system dependencies required by Playwright
 RUN apt-get update && apt-get install -y \
     wget \
     libglib2.0-0 \
@@ -19,14 +19,15 @@ RUN apt-get update && apt-get install -y \
     libpango-1.0-0 \
     libcairo2 \
     libasound2 \
+    fonts-unifont \
     && rm -rf /var/lib/apt/lists/*
 
-# Put in your Python candy 🍬 (libraries)
+# Install Python dependencies
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-# Put Playwright’s Chromium browser inside the box
-RUN playwright install --with-deps chromium
+# Install Playwright browsers (no --with-deps needed)
+RUN playwright install chromium
 
 # Copy your bot code into the box
 COPY . /app
